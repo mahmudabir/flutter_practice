@@ -17,14 +17,16 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Counter Page'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/counter');
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/counter');
             },
           ),
           ListTile(
             leading: Icon(Icons.attach_money),
             title: Text('Income & Expense Tracker'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/tracker');
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/tracker');
             },
           ),
         ],

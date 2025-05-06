@@ -27,13 +27,13 @@ class CommonBottomNav extends StatelessWidget {
     if (index == currentIndex) return;
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/counter');
+        Navigator.pushNamed(context, '/counter');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/tracker');
+        Navigator.pushNamed(context, '/tracker');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/settings');
+        Navigator.pushNamed(context, '/settings');
         break;
     }
   }

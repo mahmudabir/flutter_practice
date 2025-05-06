@@ -35,10 +35,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/counter',
       routes: {
         '/counter': (context) => CounterPage(title: 'Counter Page'),
-        '/tracker':
-            (context) => IncomeExpensePage(title: 'Income & Expense Tracker'),
+        '/tracker': (context) => IncomeExpensePage(title: 'Income & Expense Tracker'),
       },
-      home: const CounterPage(title: 'Counter Page'),
     );
   }
 }
