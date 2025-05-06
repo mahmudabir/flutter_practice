@@ -1,11 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/services/theme_service.dart';
 import 'package:flutter_practice/widgets/app_drawer.dart';
 import 'package:flutter_practice/widgets/common_bottom_nav.dart';
+import 'package:provider/provider.dart';
 
 class CounterPage extends StatefulWidget {
-  const CounterPage({super.key, required this.title});
+  const CounterPage({
+    super.key,
+    this.title = 'Counter Page',
+  }); // Made title optional with default
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -16,7 +21,7 @@ class CounterPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String? title; // Made title nullable
 
   @override
   State<CounterPage> createState() => _CounterPageState();
@@ -38,7 +43,7 @@ class _CounterPageState extends State<CounterPage> {
   }
 
   void _startIncreasing(LongPressStartDetails lpsd) {
-    _timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       _incrementCounter();
     });
   }
@@ -55,6 +60,7 @@ class _CounterPageState extends State<CounterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeService = Provider.of<ThemeService>(context, listen: false);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -63,10 +69,27 @@ class _CounterPageState extends State<CounterPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Counter Page'),
+        // backgroundColor: Theme.of(context).colorScheme.inversePrimary, // Removed to use AppTheme
+        title: Text(widget.title ?? 'Counter Page'),
+        // Use widget.title or default
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeService.themeMode == ThemeMode.dark ||
+                      (themeService.themeMode == ThemeMode.system &&
+                          MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark)
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
+            onPressed: () {
+              themeService.toggleTheme();
+            },
+            tooltip: 'Toggle Theme',
+          ),
+        ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -100,11 +123,11 @@ class _CounterPageState extends State<CounterPage> {
             child: FloatingActionButton(
               heroTag: 'reset',
               onPressed: _resetCounter,
-              backgroundColor: Colors.deepOrangeAccent,
+              // backgroundColor: Colors.deepOrangeAccent, // Removed to use AppTheme
               child: const Icon(Icons.refresh),
             ),
           ),
-          SizedBox(height: 16), // space between buttons
+          const SizedBox(height: 16), // space between buttons
           GestureDetector(
             onLongPressStart: _startIncreasing,
             onLongPressEnd: _stopIncreasing,
@@ -116,9 +139,7 @@ class _CounterPageState extends State<CounterPage> {
           ),
         ],
       ),
-      bottomNavigationBar: CommonBottomNav(
-        currentIndex: 0,
-      ),
+      bottomNavigationBar: const CommonBottomNav(currentIndex: 0),
     );
   }
 }

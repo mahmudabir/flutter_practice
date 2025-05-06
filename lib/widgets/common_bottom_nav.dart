@@ -30,7 +30,7 @@ class CommonBottomNav extends StatelessWidget {
         Navigator.pushNamed(context, '/counter');
         break;
       case 1:
-        Navigator.pushNamed(context, '/tracker');
+        Navigator.pushNamed(context, '/income-expense');
         break;
       case 2:
         try {

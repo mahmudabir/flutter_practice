@@ -26,7 +26,7 @@ class AppDrawer extends StatelessWidget {
             title: Text('Income & Expense Tracker'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/tracker');
+              Navigator.pushNamed(context, '/income-expense');
             },
           ),
         ],

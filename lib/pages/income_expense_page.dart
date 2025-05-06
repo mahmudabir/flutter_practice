@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/services/theme_service.dart';
 import 'package:flutter_practice/widgets/app_drawer.dart';
 import 'package:flutter_practice/widgets/common_bottom_nav.dart';
+import 'package:provider/provider.dart';
 
 class IncomeExpensePage extends StatefulWidget {
-  const IncomeExpensePage({super.key, required this.title});
+  const IncomeExpensePage({super.key, this.title = 'Income & Expense Tracker'});
 
   final String title;
 
@@ -62,10 +64,29 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeService = Provider.of<ThemeService>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Income & Expense Tracker'),
+        // backgroundColor: Theme.of(context).colorScheme.inversePrimary, // Removed to use AppTheme
+        title: Text(widget.title ?? 'Income & Expense Tracker'),
+        // Use widget.title or default
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeService.themeMode == ThemeMode.dark ||
+                      (themeService.themeMode == ThemeMode.system &&
+                          MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark)
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
+            onPressed: () {
+              themeService.toggleTheme();
+            },
+            tooltip: 'Toggle Theme',
+          ),
+        ],
       ),
       drawer: AppDrawer(),
       body: LayoutBuilder(
@@ -141,10 +162,7 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
           );
         },
       ),
-      bottomNavigationBar: CommonBottomNav(
-        currentIndex: 1,
-
-      ),
+      bottomNavigationBar: CommonBottomNav(currentIndex: 1),
     );
   }
 }
