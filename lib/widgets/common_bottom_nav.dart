@@ -33,7 +33,11 @@ class CommonBottomNav extends StatelessWidget {
         Navigator.pushNamed(context, '/tracker');
         break;
       case 2:
-        Navigator.pushNamed(context, '/settings');
+        try {
+          Navigator.pushNamed(context, '/settings');
+        } catch (e) {
+          debugPrint('Error navigating to settings: $e');
+        }
         break;
     }
   }
