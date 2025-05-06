@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/widgets/app_drawer.dart';
+import 'package:flutter_practice/widgets/common_bottom_nav.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key, required this.title});
@@ -62,8 +63,8 @@ class _CounterPageState extends State<CounterPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text('Counter Page')
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text('Counter Page'),
       ),
       drawer: AppDrawer(),
       body: Center(
@@ -86,10 +87,7 @@ class _CounterPageState extends State<CounterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
+            Text('$_counter', style: Theme.of(context).textTheme.displayLarge),
           ],
         ),
       ),
@@ -117,6 +115,9 @@ class _CounterPageState extends State<CounterPage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: CommonBottomNav(
+        currentIndex: 0,
       ),
     );
   }

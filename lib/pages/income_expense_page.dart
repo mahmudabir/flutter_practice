@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/widgets/app_drawer.dart';
+import 'package:flutter_practice/widgets/common_bottom_nav.dart';
 
 class IncomeExpensePage extends StatefulWidget {
   const IncomeExpensePage({super.key, required this.title});
@@ -139,6 +140,10 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
             ),
           );
         },
+      ),
+      bottomNavigationBar: CommonBottomNav(
+        currentIndex: 1,
+
       ),
     );
   }
