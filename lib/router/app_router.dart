@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/pages/add_expense_page.dart';
+import 'package:flutter_practice/pages/add_income_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_practice/pages/counter_page.dart';
 import 'package:flutter_practice/pages/income_expense_page.dart';
@@ -15,11 +17,7 @@ final GoRouter router = GoRouter(
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
-      builder: (context, state, child) {
-        // This is the shell UI that will wrap your pages
-        // It will contain the BottomNavigationBar and potentially an AppBar
-        return ScaffoldWithNavBar(child: child);
-      },
+      builder: (context, state, child) => ScaffoldWithNavBar(child: child),
       routes: [
         // Sub-routes for the shell
         GoRoute(
@@ -37,6 +35,16 @@ final GoRouter router = GoRouter(
           path: '/settings',
           pageBuilder:
               (context, state) => const NoTransitionPage(child: SettingsPage()),
+        ),
+        GoRoute(
+          path: '/income-expense/add-income',
+          pageBuilder:
+              (context, state) => const NoTransitionPage(child: AddIncomePage()),
+        ),
+        GoRoute(
+          path: '/income-expense/add-expense',
+          pageBuilder:
+              (context, state) => const NoTransitionPage(child: AddExpensePage()),
         ),
       ],
     ),

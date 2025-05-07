@@ -1,72 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/services/theme_service.dart';
-
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class IncomeExpensePage extends StatefulWidget {
   const IncomeExpensePage({
     super.key,
-  }); // Title is now handled by ScaffoldWithNavBar
-
-  // final String title; // Title is now handled by ScaffoldWithNavBar
+  });
 
   @override
   State<IncomeExpensePage> createState() => _IncomeExpensePageState();
 }
 
 class _IncomeExpensePageState extends State<IncomeExpensePage> {
+  List<Map<String, dynamic>> _transactions = [];
   double _balance = 0.0;
-  final List<Map<String, dynamic>> _expenses = [];
-
-  final TextEditingController _incomeController = TextEditingController();
-  final TextEditingController _expenseAmountController =
-      TextEditingController();
-  final TextEditingController _expenseDescController = TextEditingController();
-
-  void _addIncome() {
-    final amount = double.tryParse(_incomeController.text);
-    if (amount != null && amount > 0) {
-      setState(() {
-        _balance += amount;
-      });
-      _incomeController.clear();
-    }
-  }
-
-  void _addExpense() {
-    final amount = double.tryParse(_expenseAmountController.text);
-    final desc = _expenseDescController.text;
-
-    if (amount != null && amount > 0 && desc.isNotEmpty) {
-      setState(() {
-        _balance -= amount;
-        _expenses.add({'amount': amount, 'description': desc});
-      });
-      _expenseAmountController.clear();
-      _expenseDescController.clear();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Invalid amount or description'),
-          showCloseIcon: true,
-          shape: RoundedRectangleBorder(),
-        ),
-      );
-    }
-  }
+  double _totalExpenses = 0.0;
 
   @override
-  void dispose() {
-    _incomeController.dispose();
-    _expenseAmountController.dispose();
-    _expenseDescController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    // For now, initializing with some dummy data
+    _transactions = [
+      {'amount': 1000.0, 'description': 'Salary', 'isIncome': true},
+      {'amount': 50.0, 'description': 'Groceries', 'isIncome': false},
+      {'amount': 200.0, 'description': 'Rent', 'isIncome': false},
+      {'amount': 500.0, 'description': 'Freelance Payment', 'isIncome': true},
+    ];
+    _calculateTotals();
+  }
+
+  void _calculateTotals() {
+    _balance = 0.0;
+    _totalExpenses = 0.0;
+    for (var transaction in _transactions) {
+      if (transaction['isIncome']) {
+        _balance += transaction['amount'];
+      } else {
+        _balance -= transaction['amount'];
+        _totalExpenses += transaction['amount'];
+      }
+    }
+    setState(() {}); // Update the UI with new totals
+  }
+
+  void _deleteTransaction(int index) {
+    setState(() {
+      _transactions.removeAt(index);
+    });
+    _calculateTotals();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeService = Provider.of<ThemeService>(context, listen: false);
-
     // Scaffold, AppBar, Drawer are now handled by ScaffoldWithNavBar
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -84,51 +68,42 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
-                TextField(
-                  controller: _incomeController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Add Income',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: _addIncome,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 40),
-                TextField(
-                  controller: _expenseAmountController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: 'Expense Amount'),
+                Text(
+                  'Total Expenses: \$${_totalExpenses.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
-                TextField(
-                  controller: _expenseDescController,
-                  decoration: InputDecoration(labelText: 'Expense Description'),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple, // background color
-                    foregroundColor: Colors.white, // text color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => context.go('/income-expense/add-income'),
+                      child: const Text('Add Income'),
                     ),
-                  ),
-                  onPressed: _addExpense,
-                  child: const Text('Add Expense'),
+                    ElevatedButton(
+                      onPressed: () => context.go('/income-expense/add-expense'),
+                      child: const Text('Add Expense'),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
-                Text('Expenses:', style: TextStyle(fontSize: 18)),
+                Text('Transactions:', style: TextStyle(fontSize: 18)),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: _expenses.length,
+                    itemCount: _transactions.length,
                     itemBuilder: (context, index) {
-                      final expense = _expenses[index];
+                      final transaction = _transactions[index];
                       return ListTile(
-                        leading: const Icon(Icons.money_off),
-                        title: Text('\$${expense['amount']}'),
-                        subtitle: Text(expense['description']),
+                        leading: Icon(
+                          transaction['isIncome'] ? Icons.add_circle : Icons.remove_circle,
+                          color: transaction['isIncome'] ? Colors.green : Colors.red,
+                        ),
+                        title: Text('\$${transaction['amount']}'),
+                        subtitle: Text(transaction['description']),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () => _deleteTransaction(index),
+                        ),
                       );
                     },
                   ),

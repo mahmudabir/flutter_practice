@@ -105,8 +105,14 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   }
 
   String _getAppBarTitle(String location) {
-    if (location.startsWith('/counter')) {
-      return 'Counter Page';
+    if (location.startsWith('/income-expense/add-income')) {
+ return 'Add Income';
+    }
+    if (location.startsWith('/income-expense/add-expense')) {
+ return 'Add Expense';
+    }
+    if (location == '/counter') {
+      return 'Counter';
     }
     if (location.startsWith('/income-expense')) {
       return 'Income & Expense Tracker';

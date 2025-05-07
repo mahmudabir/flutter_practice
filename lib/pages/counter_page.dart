@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/services/theme_service.dart';
-
-import 'package:provider/provider.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({
@@ -50,8 +47,6 @@ class _CounterPageState extends State<CounterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeService = Provider.of<ThemeService>(context, listen: false);
-
     return Scaffold(
       body: Center(
         child: Column(
