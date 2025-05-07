@@ -10,7 +10,7 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
+            decoration: BoxDecoration(color: Colors.black54),
             child: Text(
               'Menu',
               style: TextStyle(color: Colors.white, fontSize: 24),
