@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/services/theme_service.dart';
-import 'package:flutter_practice/widgets/app_drawer.dart';
-import 'package:flutter_practice/widgets/common_bottom_nav.dart';
+
 import 'package:provider/provider.dart';
 
 class IncomeExpensePage extends StatefulWidget {
-  const IncomeExpensePage({super.key, this.title = 'Income & Expense Tracker'});
+  const IncomeExpensePage({super.key}); // Title is now handled by ScaffoldWithNavBar
 
-  final String title;
+  // final String title; // Title is now handled by ScaffoldWithNavBar
 
   @override
   State<IncomeExpensePage> createState() => _IncomeExpensePageState();
@@ -66,30 +65,8 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
   Widget build(BuildContext context) {
     final themeService = Provider.of<ThemeService>(context, listen: false);
 
-    return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Theme.of(context).colorScheme.inversePrimary, // Removed to use AppTheme
-        title: Text(widget.title ?? 'Income & Expense Tracker'),
-        // Use widget.title or default
-        actions: [
-          IconButton(
-            icon: Icon(
-              themeService.themeMode == ThemeMode.dark ||
-                      (themeService.themeMode == ThemeMode.system &&
-                          MediaQuery.of(context).platformBrightness ==
-                              Brightness.dark)
-                  ? Icons.light_mode
-                  : Icons.dark_mode,
-            ),
-            onPressed: () {
-              themeService.toggleTheme();
-            },
-            tooltip: 'Toggle Theme',
-          ),
-        ],
-      ),
-      drawer: AppDrawer(),
-      body: LayoutBuilder(
+    // Scaffold, AppBar, Drawer are now handled by ScaffoldWithNavBar
+    return LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth;
           double contentWidth = maxWidth > 800 ? 600 : double.infinity;
@@ -161,8 +138,6 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
             ),
           );
         },
-      ),
-      bottomNavigationBar: CommonBottomNav(currentIndex: 1),
-    );
+      );
   }
 }

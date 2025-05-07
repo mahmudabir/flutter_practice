@@ -15,6 +15,8 @@ class ThemeService with ChangeNotifier {
 
   ThemeMode get themeMode => _themeMode;
 
+  bool get isDarkMode => _themeMode == ThemeMode.dark;
+
   ThemeModePreference get themeModePreference => _themeModePreference;
 
   Future<void> _loadThemePreference() async {
