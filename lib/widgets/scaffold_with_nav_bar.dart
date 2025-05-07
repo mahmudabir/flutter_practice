@@ -32,18 +32,20 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   }
 
   void _onItemTapped(int index, BuildContext context) {
+    if (_currentIndex == index) return;
+
     setState(() {
       _currentIndex = index;
     });
     switch (index) {
       case 0:
-        context.go('/counter');
+        context.push('/counter');
         break;
       case 1:
-        context.go('/income-expense');
+        context.push('/income-expense');
         break;
       case 2:
-        context.go('/settings');
+        context.push('/settings');
         break;
     }
   }
@@ -80,6 +82,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         // You might want to add a back button conditionally for web/desktop
         // leading: GoRouter.of(context).canPop() ? BackButton() : null,
       ),
+      // Drawer can be added here if it's part of the shell
+      drawer: const AppDrawer(),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -99,17 +103,15 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         currentIndex: _currentIndex,
         onTap: (index) => _onItemTapped(index, context),
       ),
-      // Drawer can be added here if it's part of the shell
-      drawer: const AppDrawer(),
     );
   }
 
   String _getAppBarTitle(String location) {
     if (location.startsWith('/income-expense/add-income')) {
- return 'Add Income';
+      return 'Add Income';
     }
     if (location.startsWith('/income-expense/add-expense')) {
- return 'Add Expense';
+      return 'Add Expense';
     }
     if (location == '/counter') {
       return 'Counter';

@@ -77,11 +77,11 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () => context.go('/income-expense/add-income'),
+                      onPressed: () => context.push('/income-expense/add-income'),
                       child: const Text('Add Income'),
                     ),
                     ElevatedButton(
-                      onPressed: () => context.go('/income-expense/add-expense'),
+                      onPressed: () => context.push('/income-expense/add-expense'),
                       child: const Text('Add Expense'),
                     ),
                   ],

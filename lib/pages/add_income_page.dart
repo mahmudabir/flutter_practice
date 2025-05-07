@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_practice/widgets/common_app_bar.dart'; // Import CommonAppBar
 
 class AddIncomePage extends StatefulWidget {
   const AddIncomePage({super.key});
@@ -27,19 +28,21 @@ class _AddIncomePageState extends State<AddIncomePage> {
     if (_formKey.currentState!.validate()) {
       if (amount != null && amount > 0 && description.isNotEmpty) {
         debugPrint('Income Amount: $amount, Description: $description');
-        context.go("/income-expense");
+        context.pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please enter a valid amount and description')),
+          const SnackBar(
+            content: Text('Please enter a valid amount and description'),
+          ),
         );
       }
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CommonAppBar(title: 'Add Income'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -52,7 +55,10 @@ class _AddIncomePageState extends State<AddIncomePage> {
                 decoration: const InputDecoration(
                   labelText: 'Amount',
                   border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -69,7 +75,10 @@ class _AddIncomePageState extends State<AddIncomePage> {
                 controller: _descriptionController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
                   labelText: 'Description',
                 ),
                 validator: (value) {

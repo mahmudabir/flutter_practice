@@ -27,24 +27,29 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: '/income-expense',
-          pageBuilder:
-              (context, state) =>
-                  const NoTransitionPage(child: IncomeExpensePage()),
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: IncomeExpensePage()),
+          routes: [
+            GoRoute(
+              path: 'add-income', // Relative path
+              // Use parentNavigatorKey to ensure it pushes onto the root navigator
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: AddIncomePage()),
+            ),
+            GoRoute(
+              path: 'add-expense', // Relative path
+              // Use parentNavigatorKey to ensure it pushes onto the root navigator
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: AddExpensePage()),
+            ),
+          ],
         ),
         GoRoute(
           path: '/settings',
           pageBuilder:
               (context, state) => const NoTransitionPage(child: SettingsPage()),
-        ),
-        GoRoute(
-          path: '/income-expense/add-income',
-          pageBuilder:
-              (context, state) => const NoTransitionPage(child: AddIncomePage()),
-        ),
-        GoRoute(
-          path: '/income-expense/add-expense',
-          pageBuilder:
-              (context, state) => const NoTransitionPage(child: AddExpensePage()),
         ),
       ],
     ),
