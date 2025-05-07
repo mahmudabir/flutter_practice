@@ -20,8 +20,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Counter Page'),
             onTap: () {
-              Navigator.pop(context); // Close the drawer
-              context.push('/counter'); // Navigate using go_router
+              context.go('/counter'); // Navigate using go_router
             },
           ),
           ExpansionTile(
@@ -32,28 +31,21 @@ class AppDrawer extends StatelessWidget {
                 leading: Icon(Icons.list),
                 title: Text('Overview'),
                 onTap: () {
-                  Navigator.pop(context);
-                  context.push('/income-expense');
+                  context.go('/income-expense');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.add),
                 title: Text('Add Income'),
                 onTap: () {
-                  Navigator.pop(context);
-                  Future.delayed(Duration(milliseconds: 250), () {
-                    context.push('/income-expense/add-income');
-                  });
+                  context.go('/income-expense/add-income');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.remove),
                 title: Text('Add Expense'),
                 onTap: () {
-                  Navigator.pop(context);
-                  Future.delayed(Duration(milliseconds: 250), () {
-                    context.push('/income-expense/add-expense');
-                  });
+                  context.go('/income-expense/add-expense');
                 },
               ),
             ],
@@ -62,8 +54,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
-              Navigator.pop(context); // Close the drawer
-              context.push('/settings'); // Navigate using go_router
+              context.go('/settings'); // Navigate using go_router
             },
           ),
         ],

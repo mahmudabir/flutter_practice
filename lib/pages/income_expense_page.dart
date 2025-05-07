@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class IncomeExpensePage extends StatefulWidget {
-  const IncomeExpensePage({
-    super.key,
-  });
+  const IncomeExpensePage({super.key});
 
   @override
   State<IncomeExpensePage> createState() => _IncomeExpensePageState();
@@ -77,11 +75,21 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () => context.push('/income-expense/add-income'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      onPressed:
+                          () => context.push('/income-expense/add-income'),
                       child: const Text('Add Income'),
                     ),
                     ElevatedButton(
-                      onPressed: () => context.push('/income-expense/add-expense'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      onPressed:
+                          () => context.push('/income-expense/add-expense'),
                       child: const Text('Add Expense'),
                     ),
                   ],
@@ -95,8 +103,13 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                       final transaction = _transactions[index];
                       return ListTile(
                         leading: Icon(
-                          transaction['isIncome'] ? Icons.add_circle : Icons.remove_circle,
-                          color: transaction['isIncome'] ? Colors.green : Colors.red,
+                          transaction['isIncome']
+                              ? Icons.add_circle
+                              : Icons.remove_circle,
+                          color:
+                              transaction['isIncome']
+                                  ? Colors.green
+                                  : Colors.red,
                         ),
                         title: Text('\$${transaction['amount']}'),
                         subtitle: Text(transaction['description']),
