@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/widgets/app_drawer.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_practice/widgets/app_drawer.dart'; // Import AppDrawer
-import 'package:provider/provider.dart';
-import 'package:flutter_practice/services/theme_service.dart';
+
+import 'common_app_bar.dart';
 
 class ScaffoldWithNavBar extends StatefulWidget {
   final Widget child;
@@ -59,29 +59,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
       // AppBar can be customized here or within individual pages if needed
       // For a truly persistent AppBar title that changes with routes,
       // you might need to manage title state here based on the current route.
-      appBar: AppBar(
-        title: Text(_getAppBarTitle(GoRouterState.of(context).uri.toString())),
-        actions: [
-          Consumer<ThemeService>(
-            builder: (context, themeService, child) {
-              return IconButton(
-                icon: Icon(
-                  themeService.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                ),
-                tooltip:
-                    themeService.isDarkMode
-                        ? 'Switch to Light Mode'
-                        : 'Switch to Dark Mode',
-                onPressed: () {
-                  themeService.toggleTheme();
-                },
-              );
-            },
-          ),
-        ],
-        // You might want to add a back button conditionally for web/desktop
-        // leading: GoRouter.of(context).canPop() ? BackButton() : null,
-      ),
+      appBar: CommonAppBar(title: _getAppBarTitle(GoRouterState.of(context).uri.toString())),
       // Drawer can be added here if it's part of the shell
       drawer: const AppDrawer(),
       body: widget.child,
