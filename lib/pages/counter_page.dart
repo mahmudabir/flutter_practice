@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({
@@ -47,6 +48,87 @@ class _CounterPageState extends State<CounterPage> {
 
   @override
   Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (!didPop) {
+          SystemNavigator.pop();
+        } else {
+          var willPop = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Do you want to exit this page?'),
+                actions: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Go Back'),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Confirm'),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+          if (willPop ?? false) {
+            SystemNavigator.pop();
+          }
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('You have pushed the button this many times:'),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Tooltip(
+              message: 'Reset Counter',
+              preferBelow: false, // set to true or false
+              child: FloatingActionButton(
+                heroTag: 'reset',
+                onPressed: _resetCounter,
+                // backgroundColor: Colors.deepOrangeAccent, // Removed to use AppTheme
+                child: const Icon(Icons.refresh),
+              ),
+            ),
+            const SizedBox(height: 16), // space between buttons
+            GestureDetector(
+              onLongPressStart: _startIncreasing,
+              onLongPressEnd: _stopIncreasing,
+              child: FloatingActionButton(
+                heroTag: 'increment',
+                onPressed: _incrementCounter,
+                child: const Icon(Icons.add),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
     return Scaffold(
       body: Center(
         child: Column(

@@ -39,7 +39,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     });
     switch (index) {
       case 0:
-        context.push('/counter');
+        context.go('/counter');
         break;
       case 1:
         context.push('/income-expense');

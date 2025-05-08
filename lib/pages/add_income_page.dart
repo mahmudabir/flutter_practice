@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_practice/widgets/common_app_bar.dart'; // Import CommonAppBar
 
 class AddIncomePage extends StatefulWidget {
-  const AddIncomePage({super.key});
+  final bool showAppbar;
+
+  const AddIncomePage({super.key, this.showAppbar = true});
 
   @override
   State<AddIncomePage> createState() => _AddIncomePageState();
@@ -42,7 +44,8 @@ class _AddIncomePageState extends State<AddIncomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(title: 'Add Income'),
+      appBar:
+          widget.showAppbar ? const CommonAppBar(title: 'Add Income') : null,
       body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth;

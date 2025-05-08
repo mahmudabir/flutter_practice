@@ -49,6 +49,95 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
 
   @override
   Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          context.go('/counter'); // Navigate to /counter
+        }
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double maxWidth = constraints.maxWidth;
+          double contentWidth = maxWidth > 800 ? 600 : double.infinity;
+
+          return Center(
+            child: Container(
+              width: contentWidth,
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Current Balance: \$${_balance.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Total Expenses: \$${_totalExpenses.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        onPressed:
+                            () => context.push('/income-expense/add-income'),
+                        child: const Text('Add Income'),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        onPressed:
+                            () => context.push('/income-expense/add-expense'),
+                        child: const Text('Add Expense'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Text('Transactions:', style: TextStyle(fontSize: 18)),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _transactions.length,
+                      itemBuilder: (context, index) {
+                        final transaction = _transactions[index];
+                        return ListTile(
+                          leading: Icon(
+                            transaction['isIncome']
+                                ? Icons.add_circle
+                                : Icons.remove_circle,
+                            color:
+                                transaction['isIncome']
+                                    ? Colors.green
+                                    : Colors.red,
+                          ),
+                          title: Text('\$${transaction['amount']}'),
+                          subtitle: Text(transaction['description']),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () => _deleteTransaction(index),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
     // Scaffold, AppBar, Drawer are now handled by ScaffoldWithNavBar
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -76,8 +165,10 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
-                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
                       ),
                       onPressed:
                           () => context.push('/income-expense/add-income'),
@@ -85,8 +176,10 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
-                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
                       ),
                       onPressed:
                           () => context.push('/income-expense/add-expense'),

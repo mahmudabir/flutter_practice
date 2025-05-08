@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_practice/widgets/common_app_bar.dart'; // Import CommonAppBar
 
 class AddExpensePage extends StatefulWidget {
-  const AddExpensePage({super.key});
+  final bool showAppbar;
+
+  const AddExpensePage({super.key, this.showAppbar = true});
 
   @override
   State<AddExpensePage> createState() => _AddExpensePageState();
@@ -43,7 +45,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(title: 'Add Expense'),
+      appBar:
+          widget.showAppbar ? const CommonAppBar(title: 'Add Expense') : null,
       body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth;
@@ -101,14 +104,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
                       const SizedBox(height: 24),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme
-                              .of(context)
-                              .colorScheme
-                              .secondary,
-                          foregroundColor: Theme
-                              .of(context)
-                              .colorScheme
-                              .onSecondary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onSecondary,
                         ),
                         onPressed: _saveExpense,
                         child: const Text('Save Expense'),
