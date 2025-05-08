@@ -45,8 +45,7 @@ class ThemeService with ChangeNotifier {
         _themeMode = ThemeMode.dark;
         break;
       case ThemeModePreference.system:
-      default:
-        _themeMode = ThemeMode.system;
+      _themeMode = ThemeMode.system;
         break;
     }
   }
